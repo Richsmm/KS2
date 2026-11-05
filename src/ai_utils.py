@@ -23,8 +23,13 @@ def normalize_features(X: np.ndarray) -> np.ndarray:
 
 
 def accuracy(y_true: np.ndarray, y_pred: np.ndarray) -> float:
-    # Временно ломаем: всегда возвращаем 1.0 — это заставит тест упасть
-    return 1.0
+    """Доля правильных ответов."""
+    y_true, y_pred = np.asarray(y_true), np.asarray(y_pred)
+    if y_true.shape != y_pred.shape:
+        raise ValueError("Размерности y_true и y_pred должны совпадать")
+    if y_true.size == 0:
+        raise ValueError("Пустые массивы недопустимы")
+    return float(np.mean(y_true == y_pred))
 
 
 def train_test_split(X: np.ndarray, y: np.ndarray, test_size: float = 0.2,
